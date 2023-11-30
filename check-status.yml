@@ -1,0 +1,7 @@
+# check-status.yml
+---
+- hosts: webservers:loadbalancers
+  become: true
+  tasks:
+    - name: Check nginx status
+      command: systemctl status nginx

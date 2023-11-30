@@ -1,0 +1,28 @@
+---
+- hosts: loadbalancers
+  become: true
+  tasks:
+    - name: Updating packages
+      apt: 
+        update_cache: true
+    - name: Installing nginx
+      apt: name=nginx state=present
+    - name: Start and enable nginx
+      service: name=nginx state=started enabled=yes
+
+- hosts: webservers
+  become: true
+  tasks:
+    - name: Updating packages
+      apt:
+        update_cache: true
+    - name: Installing services
+      apt:
+        name:
+          - nginx
+        state: present
+    - name: Start and enable nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes

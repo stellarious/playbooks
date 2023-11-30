@@ -1,0 +1,17 @@
+# setup-lb.yml
+---
+- hosts: loadbalancers
+  become: true
+  tasks:
+    - name: Generate LB config
+      template:
+        src: ../configs/nginx-lb.j2
+        dest: /etc/nginx/sites-available/default
+        mode: 0644
+      notify: Reload nginx
+
+  handlers:
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: reloaded

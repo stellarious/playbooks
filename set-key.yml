@@ -1,0 +1,9 @@
+# set-key.yml
+---
+- hosts: control
+  tasks:
+  - name: Setting local key permissions
+    file:
+      path: ~/Downloads/key.pem
+      owner: denis
+      mode: 0400

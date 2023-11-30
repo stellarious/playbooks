@@ -1,0 +1,10 @@
+#setup-app.yml
+---
+- hosts: webservers
+  become: true
+  tasks:
+  - name: Copy content for nginx
+    copy:
+      src: ../files/index.html
+      dest: /var/www/html
+      mode: 0755

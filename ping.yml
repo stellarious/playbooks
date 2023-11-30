@@ -1,0 +1,6 @@
+# ping.yml
+---
+- hosts: control
+  tasks:
+  - name: Setting key permissions
+    file: ping
