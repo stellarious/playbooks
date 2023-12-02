@@ -2,9 +2,36 @@
 ---
 - hosts: webservers
   become: true
+  vars:
+    content_path: /var/www/html
+
+  vars_files:
+    - ../secret-vars.yml
+
+  vars_prompt:
+    - name: check_dir
+      prompt: "Wanna check {{ content_path }}?"
+
   tasks:
+  - name: Check content dir
+    command: "ls -lah {{ content_path }}"
+    register: dir_contents
+    when: check_dir == "yes"
+    changed_when: false
+
+  - name: Debug content dir
+    debug:
+      msg: "{{ dir_contents }}"
+    when: check_dir == "yes"
+
+  - name: Use secret
+    debug:
+      msg: "{{ a }}"
+
   - name: Copy content for nginx
     copy:
-      src: ../files/index.html
-      dest: /var/www/html
+      dest: "{{ content_path }}/index.html"
+      content: "<h1> Hi from {{ ansible_hostname }}!"
       mode: 0755
+    diff: true
+    tags: upload

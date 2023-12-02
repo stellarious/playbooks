@@ -5,3 +5,4 @@
   tasks:
     - name: Check nginx status
       command: systemctl status nginx
+      changed_when: false
